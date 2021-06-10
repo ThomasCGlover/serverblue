@@ -24,16 +24,18 @@ router.post("/create", async (req,res) =>{
     console.log(charCreate);
 
     try{
-        const newCharacter = await CharacterModel.create(charCreate);
+        const newCharacter = await CharacterModel.create(
+            charCreate
+            );
             res.status(201).json({
                 message:`Character successfully created`,
                 newCharacter
             })
+            console.log(newCharacter);
         } catch(err){
         res.status(500).json({
             message:`Failed to create Log: ${err}`
         })
     }
-    
 })
 module.exports = router;
