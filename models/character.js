@@ -1,4 +1,4 @@
-const {DataTypes, Model} = require('sequelize');
+const {DataTypes} = require('sequelize');
 const db = require('../db');
 
 const CharacterModel = db.define('Char',{
@@ -46,9 +46,6 @@ const CharacterModel = db.define('Char',{
     },
     campaign:{
         type: DataTypes.STRING,
-    },
-    owner_id:{
-        type: DataTypes.STRING
     }
 })
 
