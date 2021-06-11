@@ -71,7 +71,7 @@ router.get("/", async (req,res) => {
     }
 })
 
-router.get("/:id", middleware.validateSession, async (req,res) => {
+router.get("/me/:id", middleware.validateSession, async (req,res) => {
     try {
         const {id} = req.params;
         const userChar = await CharacterModel.findAll({
