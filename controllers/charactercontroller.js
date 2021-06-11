@@ -82,4 +82,23 @@ router.get("/", async (req,res) => {
     }
 })
 
+
+router.delete('/delete/:id', async (req, res) => {
+    try{
+        const deleteChar = await CharacterModel.destroy({
+          where: {id: req.params.id}
+        })
+          res.status(200).json({
+            message: "Character successfully deleted",
+            deletedChar: deleteChar
+          })
+      } catch(err){
+        res.status(500).json({
+          message: `Failed to delete character: ${err}`
+        })
+      }
+    })
+
+
+
 module.exports = router;

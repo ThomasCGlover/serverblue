@@ -1,7 +1,5 @@
-// require('dotenv').config();
+const {Sequelize} = require('sequelize');
 
-const { Sequelize } = require('sequelize');
+const sequelize = new Sequelize("postgres://postgres:58213@localhost:5432/dnd-users")
 
-const db = new Sequelize('postgres://postgres:password@localhost:5432/character-creator');
-
-module.exports = db;
+module.exports = sequelize;
