@@ -1,6 +1,6 @@
 const router = require('express').Router();
 // const { model } = require('../db');
-const {CharacterModel} = require('../models/character')
+const CharacterModel = require('../models/character')
 
 
 router.post("/create", async (req,res) =>{
@@ -40,10 +40,10 @@ router.post("/create", async (req,res) =>{
 })
 
 
-router.delete('/delete', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     try{
         const deleteChar = await CharacterModel.destroy({
-          where: {id: req.body.charName}
+          where: {id: req.params.id}
         })
           res.status(200).json({
             message: "Character successfully deleted",
