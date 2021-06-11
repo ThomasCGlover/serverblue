@@ -71,9 +71,9 @@ router.get("/", async (req,res) => {
     }
 })
 
-router.get("/me", middleware.validateSession, async (req,res) => {
+router.get("/:id", middleware.validateSession, async (req,res) => {
     try {
-        const id = 4;
+        const {id} = req.params;
         const userChar = await CharacterModel.findAll({
             where: {owner_id:id}
         })
@@ -82,6 +82,21 @@ router.get("/me", middleware.validateSession, async (req,res) => {
         res.status(500).json({ error: err });
     }
 })
+
+// router.get("/:id", async (req, res) => {
+//     const {id} = req.params;
+//     try{
+//         const results = await LogModel.findAll({
+//             where: {
+//                 id: id
+//             }
+//         });
+//         res.status(200).json(results);
+//     } catch(err){
+//         res.status(500).json({error: err});
+//     }
+// });
+
 
 
 router.delete('/delete/:id', middleware.validateSession, async (req, res) => {
