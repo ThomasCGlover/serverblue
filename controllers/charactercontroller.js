@@ -6,6 +6,7 @@ const CharacterModel = require('../models/character')
 router.post("/create", async (req,res) =>{
     console.log(req.body);
     const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} =req.body.character;
+    // const { id } = req.user;
 
     const charCreate = {
         charName,
@@ -23,7 +24,7 @@ router.post("/create", async (req,res) =>{
     }
     console.log(charCreate);
 
-    try{
+    try{  
         const newCharacter = await CharacterModel.create(
             charCreate
             );
@@ -31,11 +32,53 @@ router.post("/create", async (req,res) =>{
                 message:`Character successfully created`,
                 newCharacter
             })
-            console.log(newCharacter);
         } catch(err){
         res.status(500).json({
-            message:`Failed to create Log: ${err}`
+            message:`Failed to create Character: ${err}`
         })
+    }
+})
+
+router.put('/:id', async (req, res) =>{
+    const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} =req.body.character;
+    try{
+        const charUpdate = await CharacterModel.update({
+            charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign},
+            {where: {id: req.params.id}}
+            )
+            res.status(200).json({
+                message: `Character successfully updated`,
+                charUpdate
+            })
+    }catch(err) {
+        resizeBy.status(500).json({
+            message: `Failed to update Character: ${err}`
+        })
+    }
+})
+
+router.get("/", async (req,res) => {
+    try {
+        //const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} = await CharacterModel.findAll();
+        const allChar = await CharacterModel.findAll();
+        res.status(200).json(allChar);
+    }
+    catch (err) {
+        res.status(500).json({ error: err });
+    }
+})
+
+router.get("/", async (req,res) => {
+    let { id } = req.charName;
+    try {
+        const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} = await CharacterModel.findAll(); ({
+            where: {
+                id: id
+            }
+        })
+        res.status(200).json(charCreate);
+    } catch (err) {
+        res.status(500).json({ error: err });
     }
 })
 
@@ -85,6 +128,7 @@ router.get("/", async (req,res) => {
       }
 
 })
+
 
 
 module.exports = router;
