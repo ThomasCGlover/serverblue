@@ -4,4 +4,3 @@ const sequelize = new Sequelize("postgres://postgres:password@localhost:5432/dnd
 
 module.exports = sequelize;
 
-
