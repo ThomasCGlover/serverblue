@@ -56,4 +56,30 @@ router.put('/:id', async (req, res) =>{
         })
     }
 })
+
+router.get("/", async (req,res) => {
+    try {
+        //const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} = await CharacterModel.findAll();
+        const allChar = await CharacterModel.findAll();
+        res.status(200).json(allChar);
+    }
+    catch (err) {
+        res.status(500).json({ error: err });
+    }
+})
+
+router.get("/", async (req,res) => {
+    let { id } = req.charName;
+    try {
+        const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} = await CharacterModel.findAll(); ({
+            where: {
+                id: id
+            }
+        })
+        res.status(200).json(charCreate);
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+})
+
 module.exports = router;
