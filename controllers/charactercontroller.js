@@ -1,13 +1,15 @@
 const router = require('express').Router();
 // const { model } = require('../db');
 const CharacterModel = require('../models/character')
+const validateSession = require('../middleware')
+const middleware = require('../middleware')
 
 
-router.post("/create", async (req, res) => {
+router.post("/create", middleware.validateSession, async (req, res) => {
     console.log(req.body);
 
     const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description, background, campaign } = req.body.character;
-
+    const {id} = req.user;
     const charCreate = {
         charName,
         charClass,
@@ -21,6 +23,7 @@ router.post("/create", async (req, res) => {
         description,
         background,
         campaign,
+        owner_id: id
     }
     console.log(charCreate);
 
@@ -40,8 +43,8 @@ router.post("/create", async (req, res) => {
     }
 })
 
-router.put('/:id', async (req, res) =>{
-    const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} =req.body.character;
+router.put('/:id', middleware.validateSession, async (req, res) =>{
+    const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign, owner_id} =req.body.character;
     try{
         const charUpdate = await CharacterModel.update({
             charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign},
@@ -60,7 +63,6 @@ router.put('/:id', async (req, res) =>{
 
 router.get("/", async (req,res) => {
     try {
-        //const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} = await CharacterModel.findAll();
         const allChar = await CharacterModel.findAll();
         res.status(200).json(allChar);
     }
@@ -69,22 +71,20 @@ router.get("/", async (req,res) => {
     }
 })
 
-router.get("/", async (req,res) => {
-    let { id } = req.charName;
+router.get("/me", middleware.validateSession, async (req,res) => {
     try {
-        const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} = await CharacterModel.findAll(); ({
-            where: {
-                id: id
-            }
+        const id = 4;
+        const userChar = await CharacterModel.findAll({
+            where: {owner_id:id}
         })
-        res.status(200).json(charCreate);
+        res.status(200).json(userChar);
     } catch (err) {
         res.status(500).json({ error: err });
     }
 })
 
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', middleware.validateSession, async (req, res) => {
     try {
         const deleteChar = await CharacterModel.destroy({
             where: { id: req.params.id }
