@@ -46,6 +46,9 @@ const CharacterModel = db.define('Char',{
     },
     campaign:{
         type: DataTypes.STRING,
+    },
+    owner_id:{
+        type: DataTypes.STRING,
     }
 })
 
