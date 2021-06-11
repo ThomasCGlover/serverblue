@@ -3,10 +3,9 @@ const router = require('express').Router();
 const CharacterModel = require('../models/character')
 
 
-router.post("/create", async (req,res) =>{
+router.post("/create", async (req, res) => {
     console.log(req.body);
-    const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} =req.body.character;
-    // const { id } = req.user;
+    const { charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description, background, campaign } = req.body.character;
 
     const charCreate = {
         charName,
@@ -24,36 +23,38 @@ router.post("/create", async (req,res) =>{
     }
     console.log(charCreate);
 
-    try{  
+    try {
         const newCharacter = await CharacterModel.create(
             charCreate
-            );
-            res.status(201).json({
-                message:`Character successfully created`,
-                newCharacter
-            })
-        } catch(err){
+        );
+        res.status(201).json({
+            message: `Character successfully created`,
+            newCharacter
+        })
+        console.log(newCharacter);
+    } catch (err) {
         res.status(500).json({
-            message:`Failed to create Character: ${err}`
+            message: `Failed to create Log: ${err}`
         })
     }
 })
 
-router.put('/:id', async (req, res) =>{
-    const {charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign} =req.body.character;
-    try{
-        const charUpdate = await CharacterModel.update({
-            charName, charClass, race, STR, DEX, CON, INT, WIS, CHA, description,background, campaign},
-            {where: {id: req.params.id}}
-            )
-            res.status(200).json({
-                message: `Character successfully updated`,
-                charUpdate
-            })
-    }catch(err) {
-        resizeBy.status(500).json({
-            message: `Failed to update Character: ${err}`
+
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const deleteChar = await CharacterModel.destroy({
+            where: { id: req.params.id }
+        })
+        res.status(200).json({
+            message: "Character successfully deleted",
+            deletedChar: deleteChar
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: `Failed to delete character: ${err}`
         })
     }
 })
+
+
 module.exports = router;
