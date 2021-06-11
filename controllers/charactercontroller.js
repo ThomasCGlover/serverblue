@@ -1,6 +1,6 @@
 const router = require('express').Router();
 // const { model } = require('../db');
-const {CharacterModel} = require('../models/character')
+const CharacterModel = require('../models/character')
 
 
 router.post("/create", async (req,res) =>{
@@ -23,7 +23,7 @@ router.post("/create", async (req,res) =>{
     }
     console.log(charCreate);
 
-    try{
+    try{  
         const newCharacter = await CharacterModel.create(
             charCreate
             );
@@ -31,10 +31,9 @@ router.post("/create", async (req,res) =>{
                 message:`Character successfully created`,
                 newCharacter
             })
-            console.log(newCharacter);
         } catch(err){
         res.status(500).json({
-            message:`Failed to create Log: ${err}`
+            message:`Failed to create Character: ${err}`
         })
     }
 })
