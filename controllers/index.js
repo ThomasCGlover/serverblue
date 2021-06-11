@@ -1,3 +1,5 @@
-module.exports ={
-    charactercontroller: require('./charactercontroller')
+module.exports = {
+    userController: require('./usercontroller'),
+  charactercontroller: require('./charactercontroller')
+  
 }
