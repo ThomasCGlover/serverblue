@@ -28,6 +28,7 @@ router.post("/register", async (req, res) => {
         } else{
             res.status(500).json({
                 message: "Failed to register the user"
+            
             });
         }
     }
