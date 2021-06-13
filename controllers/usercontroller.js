@@ -28,6 +28,7 @@ router.post("/register", async (req, res) => {
         } else{
             res.status(500).json({
                 message: "Failed to register the user"
+            
             });
         }
     }
@@ -51,8 +52,8 @@ router.post("/login", async (req, res) => {
 
             res.status(200).json({
                 user: loginUser,
-                sessionToken: token,
-                message: "Successfully logged in!"
+                message: "Successfully logged in!",
+                sessionToken: token
             })
 
         } else{
