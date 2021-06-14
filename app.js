@@ -14,7 +14,7 @@ app.use('/character', controllers.charactercontroller);
 
 dbConnection.authenticate()
     .then(() => dbConnection.sync(
-        // {force: true}
+        // {alter: true}
     ))
     .then(() => {
         app.listen(process.env.PORT, () => {
