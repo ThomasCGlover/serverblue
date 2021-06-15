@@ -4,6 +4,3 @@ module.exports = {
     UserModel,
     CharacterModel
 };
-
-
-
