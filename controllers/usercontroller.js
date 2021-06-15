@@ -73,6 +73,22 @@ router.post("/login", async (req, res) => {
     }
 });
 
+router.get("/:id", middleware.validateSession, async (req, res) =>{
+    try {
+        const getEmail = await UserModel.findOne({
+            where: {id: req.params.id}
+        })
+        res.status(200).json({
+            message: 'Email Retrieved',
+            email: getEmail
+        })
+    } catch(err) {
+        res.status(500).json({
+            message:`Failed to retrieve email: ${err}`
+        })
+    }
+})
+
 router.put('/update/:id', middleware.validateSession, async (req, res) => {
     const {email, password} = req.body.user
     try {
