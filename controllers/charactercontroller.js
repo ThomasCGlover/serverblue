@@ -71,9 +71,9 @@ router.get("/", async (req,res) => {
     }
 })
 
-router.get("/me/:id", middleware.validateSession, async (req,res) => {
+router.get("/me", middleware.validateSession, async (req,res) => {
     try {
-        const {id} = req.params;
+        const {id} = req.user;
         const userChar = await CharacterModel.findAll({
             where: {owner_id:id}
         })
