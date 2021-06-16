@@ -4,6 +4,7 @@ const {UserModel} = require('../models');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const middleware = require('../middleware');
+const { route } = require('./charactercontroller');
 
 router.post("/register", async (req, res) => {
     let {email, password} = req.body.user;
@@ -73,10 +74,12 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.get("/:id", middleware.validateSession, async (req, res) =>{
+
+router.get("/", middleware.validateSession, async (req, res) =>{
     try {
+        const {id} = req.user;
         const getEmail = await UserModel.findOne({
-            where: {id: req.params.id}
+            where: {id: id}
         })
         res.status(200).json({
             message: 'Email Retrieved',
